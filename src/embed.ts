@@ -672,40 +672,6 @@ export function officialAccountsEmbed(): unknown {
   };
 }
 
-export function credEmbed(
-  totalCred: number,
-  lastWeekCred: number,
-  thisWeekCred: number
-): unknown {
-  return {
-    embed: {
-      color: 16769024,
-      title: "Your cred:",
-      thumbnail: {
-        url: "https://i.imgur.com/dRxtULu.png",
-      },
-      fields: [
-        {
-          name: "Total",
-          value: Math.round(totalCred),
-        },
-        {
-          name: "Last week",
-          value: Math.round(lastWeekCred),
-        },
-        {
-          name: "This week",
-          value: Math.round(thisWeekCred),
-        },
-      ],
-      timestamp: new Date(),
-      footer: {
-        text: "pollen.1hive.org",
-      },
-    },
-  };
-}
-
 export function sitesEmbed(siteData: string): unknown {
   return {
     embed: {

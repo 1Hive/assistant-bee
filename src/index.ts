@@ -1,13 +1,10 @@
 /* eslint-disable quotes */
 import { Client, TextChannel } from "discord.js";
 import * as dotenv from "dotenv";
-import { CronJob } from "cron";
 
 import detectHandler from "./parser/detectHandler";
 import { RequestHandlerError } from "./error-utils";
 import { log } from "./utils";
-import updateroles from "./handlers/updateRoles";
-import { fetchPollenData } from "./utils";
 
 import {
   welcomeEmbed,
@@ -24,15 +21,15 @@ dotenv.config();
 
 const client = new Client({
   partials: ["MESSAGE", "REACTION"],
-  ws: { 
+  ws: {
     intents: [
       "GUILDS",
       "GUILD_MESSAGES",
       "GUILD_MESSAGE_REACTIONS",
       "GUILD_MEMBERS",
       "DIRECT_MESSAGES",
-      "DIRECT_MESSAGE_REACTIONS"
-    ]
+      "DIRECT_MESSAGE_REACTIONS",
+    ],
   },
 });
 
@@ -125,7 +122,7 @@ client.on("message", (message) => {
           message.channel.id === BOT_COMMANDS_CHANNEL_ID ||
           message.guild === null
         ) {
-          handler(message, pollenData);
+          handler(message);
           log(
             `Served command ${message.content} successfully for ${message.author.username}.`
           );
@@ -149,49 +146,5 @@ client.on("message", (message) => {
     // Sentry.captureException(err)
   }
 });
-
-// Preloads pollen data on bot start as well as every 6 hours
-let pollenData;
-
-// eslint-disable-next-line
-const pollenDataUpdate = new CronJob(
-  "0 */6 * * *",
-  async () => {
-    pollenData = await fetchPollenData();
-    // start: true, runOnInit: true
-  },
-  null,
-  true,
-  null,
-  null,
-  true
-);
-
-// Runs the pollen updateRoles function periodically at 12am and 12pm UTC
-// eslint-disable-next-line
-const midnightRoleUpdate = new CronJob(
-  "00 00 00 * * *",
-  () => {
-    console.log("Updating roles...");
-    updateroles(null, pollenData);
-    // start: true
-  },
-  null,
-  true,
-  "Europe/London"
-);
-
-// eslint-disable-next-line
-const middayRoleUpdate = new CronJob(
-  "00 00 12 * * *",
-  () => {
-    console.log("Updating roles...");
-    updateroles(null, pollenData);
-    // start: true
-  },
-  null,
-  true,
-  "Europe/London"
-);
 
 client.login(process.env.DISCORD_API_TOKEN);
