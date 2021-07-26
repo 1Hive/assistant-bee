@@ -5,6 +5,7 @@
     "logo": "https://www.wholekidsfoundation.org/assets/images/Worker-Bee-Roles_Guard.png",
     "keywords": ["node", "discord", "1Hive"],
     "env": {
-      "DISCORD_API_TOKEN": "YOUR_DISCORD_API_TOKEN"
+      "DISCORD_API_TOKEN": "YOUR_DISCORD_API_TOKEN",
+      "GUILD_ID": "YOUR_GUILD_ID"
     }
   }

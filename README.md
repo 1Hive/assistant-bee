@@ -27,5 +27,4 @@ If you want your bot to only accept commands on a specific channel and also redi
 For the bot to run properly, it needs these variables, laid out in the `.env.sample` file:
 
 - `DISCORD_API_TOKEN`: Your discord API token. [See this guide on how to obtain one](https://github.com/reactiflux/discord-irc/wiki/Creating-a-discord-bot-&-getting-a-token).
-- `MONGODB_URI`: Your MongoDB connection URI.
 - `GUILD_ID`: Your Discord server ID.
