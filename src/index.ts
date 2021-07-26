@@ -13,7 +13,6 @@ import {
 } from "./embed";
 
 const externalCommands = ["!join", "!me", "!verify"];
-require("./db/connection");
 
 // Load this as early as possible, to init all the environment variables that may be needed
 dotenv.config();
