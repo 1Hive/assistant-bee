@@ -641,8 +641,7 @@ export function officialAccountsEmbed(): unknown {
     embed: {
       title: "Official accounts",
       thumbnail: {
-        url:
-          "https://audiologydesign.com/wp-content/uploads/2017/05/header-social.jpg",
+        url: "https://audiologydesign.com/wp-content/uploads/2017/05/header-social.jpg",
       },
       color: 16769024,
       description: [

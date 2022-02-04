@@ -1,7 +1,6 @@
 /* eslint-disable quotes */
 import { Client, TextChannel } from "discord.js";
 import * as dotenv from "dotenv";
-
 import detectHandler from "./parser/detectHandler";
 import { RequestHandlerError } from "./error-utils";
 import { log } from "./utils";
@@ -13,7 +12,7 @@ import {
 } from "./embed";
 
 const externalCommands = ["!join", "!me", "!verify"];
-require("./db/connection");
+// require("./db/connection");
 
 // Load this as early as possible, to init all the environment variables that may be needed
 dotenv.config();
@@ -21,16 +20,14 @@ dotenv.config();
 
 const client = new Client({
   partials: ["MESSAGE", "REACTION"],
-  ws: {
-    intents: [
-      "GUILDS",
-      "GUILD_MESSAGES",
-      "GUILD_MESSAGE_REACTIONS",
-      "GUILD_MEMBERS",
-      "DIRECT_MESSAGES",
-      "DIRECT_MESSAGE_REACTIONS",
-    ],
-  },
+  intents: [
+    "GUILDS",
+    "GUILD_MESSAGES",
+    "GUILD_MESSAGE_REACTIONS",
+    "GUILD_MEMBERS",
+    "DIRECT_MESSAGES",
+    "DIRECT_MESSAGE_REACTIONS",
+  ],
 });
 
 client.on("ready", () => {
@@ -73,7 +70,7 @@ client.on("messageReactionAdd", async (reaction, user) => {
   }
 });
 
-client.on("message", (message) => {
+client.on("messageCreate", (message) => {
   if (message.author.bot) return;
 
   // Command prefixes for all bots
@@ -81,7 +78,7 @@ client.on("message", (message) => {
 
   // Gets the Bot-commands channel ID.
   const BOT_COMMANDS_CHANNEL_ID =
-    message.channel.type === "dm"
+    message.channel.type === "DM"
       ? message.channel.id
       : message.guild.channels.cache.find((channel) => {
           return channel.name.includes("bot-commands");
@@ -90,7 +87,7 @@ client.on("message", (message) => {
   try {
     if (message.content.includes("app.brightid.org/connection-code")) {
       // Deletes the message inmediately.
-      message.delete({ timeout: 500 });
+      message.delete();
 
       // Sends a PM to the user, letting them know it is against the rules.
       message.author.send(brightidWarningEmbed());
@@ -103,7 +100,7 @@ client.on("message", (message) => {
       externalCommands.indexOf(message.content) > -1 &&
       message.channel.id !== BOT_COMMANDS_CHANNEL_ID
     ) {
-      message.delete({ timeout: 500 });
+      message.delete();
       message.author.send(wrongChannelWarningEmbed());
     } else {
       // If message is an external bot command, deletes the message after bot reacted to it
@@ -112,7 +109,7 @@ client.on("message", (message) => {
           message.content.startsWith(prefix)
         )
       ) {
-        message.delete({ timeout: 3000 });
+        message.delete();
       }
 
       const handler = detectHandler(message.content);
@@ -127,7 +124,7 @@ client.on("message", (message) => {
             `Served command ${message.content} successfully for ${message.author.username}.`
           );
         } else {
-          message.delete({ timeout: 500 });
+          message.delete();
           client.channels.fetch(BOT_COMMANDS_CHANNEL_ID).then((channel) => {
             (channel as TextChannel).send(`<@${message.author.id}>`);
             (channel as TextChannel).send(wrongChannelWarningEmbed());
