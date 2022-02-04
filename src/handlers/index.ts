@@ -11,6 +11,7 @@ import xDai from "./getxDai";
 import saveWallet from "./saveWallet";
 import ayuda from "./ayuda";
 import sites from "./sites";
+import massban from "./massban";
 
 const handlers = new Map([
   ["address", address],
@@ -27,6 +28,7 @@ const handlers = new Map([
   ["official", official],
   ["network", xDai],
   ["ayuda", ayuda],
+  ["massban", massban],
 ]);
 
 export default handlers;
