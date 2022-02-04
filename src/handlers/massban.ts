@@ -21,7 +21,6 @@ export default async function massban(message: Message): Promise<void> {
 
     const members = await message.guild.members.fetch({
       query: arg,
-      force: true,
     });
 
     message.reply(members.size.toString());
